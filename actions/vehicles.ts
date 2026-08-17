@@ -103,19 +103,4 @@ export async function deleteVehicle(id: string): Promise<ActionResult> {
   }
 }
 
-function friendlyError(err: unknown): string {
-  if (err instanceof Error) {
-    if (err.message === "UNAUTHENTICATED" || err.message === "FORBIDDEN") {
-      return "You don't have permission to do that.";
-    }
-    if ("code" in err && (err as { code?: string }).code === "P2003") {
-      return "This record can't be removed because it's linked to existing trip sheets.";
-    }
-    if ("code" in err && (err as { code?: string }).code === "P2002") {
-      return "A record with that value already exists.";
-    }
-  }
-  return "Something went wrong. Please try again.";
-}
-
 export { friendlyError };

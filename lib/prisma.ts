@@ -1,7 +1,7 @@
 import { PrismaNeon } from "@prisma/adapter-neon";
 import { neonConfig } from "@neondatabase/serverless";
 import ws from "ws";
-import { PrismaClient } from "@/app/generated/prisma";
+import { PrismaClient } from "@prisma/client";
 
 // Neon's serverless driver needs a WebSocket implementation outside the
 // browser/edge runtime. This keeps pooled/interactive-transaction support
