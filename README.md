@@ -1,36 +1,173 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# A SQUARE Report Management System
 
-## Getting Started
+A production-ready web application for digitizing trip sheet management, fleet operations, and business reporting. Built with **Next.js 16**, **Prisma 7**, **Vercel Postgres**, **Auth.js**, and **Vercel Blob**.
 
-First, run the development server:
+## Features
+
+- 🚗 **Fleet Management**: Track vehicles, status, investor/dealer assignments
+- 👥 **Entity CRUD**: Manage customers, dealers, investors
+- 📋 **Trip Sheet Core Module**: Record trips with KM tracking, expense calculation, automatic financials
+- 💰 **Ledger System**: Customer billing, dealer commissions, investor settlements, payment tracking
+- 📊 **Analytics Dashboard**: Real-time metrics, vehicle utilization, recent activity
+- 📈 **Business Reports**: Dealer-wise, customer-wise, vehicle-wise summaries
+- 🔐 **Role-Based Access Control**: Admin, Staff, Dealer, Investor roles
+- 🔒 **Secure Authentication**: Auth.js with Credentials provider
+- 📁 **File Uploads**: Invoices/bills via Vercel Blob Storage
+
+## Tech Stack
+
+| Component | Technology |
+|-----------|-----------|
+| Framework | Next.js 16 (App Router, TypeScript) |
+| Frontend | React 19, Tailwind CSS 4, Lucide React |
+| Database | PostgreSQL (Vercel Postgres / Neon) |
+| ORM | Prisma 7 with Neon Driver Adapter |
+| Auth | Auth.js 5 (next-auth) with Credentials provider |
+| Storage | Vercel Blob |
+| Forms | React Hook Form + Zod validation |
+| Hosting | Vercel (Node.js runtime) |
+
+## Quick Start (Local)
+
+### Prerequisites
+- Node.js 20+, npm 11+
+
+### 1. Install & Setup
+
+```bash
+npm install
+cp .env.example .env
+```
+
+### 2. Database & Migrations
+
+```bash
+npm run db:push
+npm run db:seed
+```
+
+### 3. Start Development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Login:** `admin@asquare.local` / `staff@asquare.local`  
+**Password:** (from `.env` `SEED_ADMIN_PASSWORD`)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Navigate to http://localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Deploy to Vercel
 
-To learn more about Next.js, take a look at the following resources:
+### 1. Create Vercel Postgres
+Vercel Dashboard → **Storage → Postgres** → **Create**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 2. Deploy
+```bash
+git push origin main
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 3. Set Environment Variables
+In Vercel Dashboard → **Settings → Environment Variables**:
+```
+AUTH_SECRET              (npx auth secret)
+NEXTAUTH_URL             https://yourdomain.vercel.app
+BLOB_READ_WRITE_TOKEN    (optional, for uploads)
+SEED_ADMIN_PASSWORD      YourPassword@123
+```
 
-## Deploy on Vercel
+### 4. Run Migrations
+```bash
+vercel env pull
+npm run db:push
+npm run db:seed
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Project Structure
+
+```
+asquare/
+├── app/(app)/              # Protected routes
+│   ├── dashboard/
+│   ├── vehicles/
+│   ├── customers/
+│   ├── dealers/
+│   ├── investors/
+│   ├── trip-sheets/
+│   ├── reports/
+│   └── layout.tsx          # AppShell
+├── app/login/
+├── api/auth/[...nextauth]/
+├── actions/                # Server Actions
+├── components/             # React components
+├── lib/                    # Utilities
+├── middleware.ts           # Route protection
+└── prisma/
+    ├── schema.prisma
+    └── seed.ts
+```
+
+---
+
+## Core Features
+
+### Trip Sheet Management
+- Create trips with customer, vehicle, driver, route
+- Real-time KM & expense calculations
+- Automatic financial summaries
+- Upload attachments
+
+### Entity Management
+- Customers, Dealers, Investors, Vehicles
+- Ledger tracking (billed, received, outstanding)
+- Payment history & settlements
+
+### Analytics & Reports
+- Dashboard with KPIs
+- Dealer-wise, customer-wise, vehicle-wise summaries
+- Utilization metrics
+
+### Security
+- Role-based access control (Admin, Staff, Dealer, Investor)
+- Secure authentication with JWT
+- Activity logging for audit trail
+
+---
+
+## Environment Variables
+
+```
+DATABASE_URL              PostgreSQL connection string
+AUTH_SECRET               Random secret (npx auth secret)
+NEXTAUTH_URL              Deployed URL (https://yourdomain.com)
+BLOB_READ_WRITE_TOKEN     Vercel Blob token (optional)
+SEED_ADMIN_PASSWORD       Initial admin password
+```
+
+---
+
+## Production Checklist
+
+- [ ] Set strong `AUTH_SECRET`
+- [ ] Configure `NEXTAUTH_URL` for production
+- [ ] Test auth & role-based redirects
+- [ ] Run `npm run build` to verify
+- [ ] Set up database backups
+- [ ] Monitor Vercel logs
+
+---
+
+## Documentation
+
+- [Next.js Docs](https://nextjs.org)
+- [Prisma Docs](https://prisma.io)
+- [Auth.js Docs](https://authjs.dev)
+- [Vercel Docs](https://vercel.com/docs)
+
+---
+
+**Built with ❤️ for A SQUARE Fleet Management**
